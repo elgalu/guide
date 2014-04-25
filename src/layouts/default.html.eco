@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title><%= @document.title %> | Protractor Guide</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link href='https://fonts.googleapis.com/css?family=Istok+Web:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="<%= @site.url %>/css/normalize.css">
+  <link rel="stylesheet" href="<%= @site.url %>/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="l-header">
+      <img src="<%= @site.url %>/images/protractor-br-logo.png" alt="Protractor BR" width="140" height="140">
+    </header>
+
+    <ul>
+      <% for page in @getCollection('pages').toJSON(): %>
+        <li class="<%= if page.id is @document.id then 'active' %>">
+          <a href="<%= @site.url + page.url %>"><%= page.title %></a>
+        </li>
+      <% end %>
+    </ul>
+
+    <%- @content %>
+  </div>
+  <footer class="l-footer">
+    <p>Made with all the ♥ in the world</p>
+    <p>by <a href="#">Ciro Nunes</a>, <a href="#">Ramon Victor</a> and <a href="#">Rafael Battesti</a></p>
+  </footer>
+  <%- @getBlock("scripts").toHTML() %>
+</body>
+</html>
