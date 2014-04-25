@@ -1,0 +1,16 @@
+{
+  "name": "ptor-guide",
+  "version": "0.1.0",
+  "authors": [
+    "Ciro Nunes <ciroanunes@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

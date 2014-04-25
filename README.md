@@ -25,3 +25,4 @@ Team
 
 - [Ramon Victor](https://github.com/ramonvictor)
 - [Ciro Nunes](https://github.com/cironunes)
+- [Rafael Battesti](https://github.com/rafaelbattesti)
