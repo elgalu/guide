@@ -23,7 +23,7 @@
 15. Turbocharge your config.js
 16. References
 
-##Team (In alphabetic Order)
+##Team (in alphabetic order)
 ---------------------------------------------------
 
 - [Ciro Nunes](https://github.com/cironunes)
@@ -32,12 +32,14 @@
 
 
 ##1. Intro
+---------------------------------------------------
 
 Hello everyone and welcome to Protractor Brasil. This is a live community to be used as a learning and experience exchange space. We are glad to welcome all the developers, testers and enthusiasts who would like to take a deep dive into the world of Testing and specially AngularJS applications using Protractor.
 
 Hope it is going to be of the best use for all!
 
 ##2. A little bit on Testing concepts...
+---------------------------------------------------
 
 So, why should systems be tested and how should it be done? One might say "Don't be stupid, they must be tested for bugs!", but would it be all a testing strategy is for?
 
@@ -77,11 +79,65 @@ Some test types, according to the University of Sydney, are:
 There is still a lot more on testing, but let's not loose the track and focus on Protractor.
 
 ##12. How to validate DataBase tests using NodeJS' mysql module
+---------------------------------------------------
 
 First of all, we have to acknoledge the great work brought to life by the npm mysql team.
 
-Then moving to ...
+Then moving to practical stuff, in order to move on with the tricks below, you got to...
+		
+	sudo npm install mysql -g
+		
+	ATTENTION!! This is going to install the node package globally, so all your code will have to make reference to your global paths.
 
+After installing the Node Package, let's move to the testing code. As our `conf.js` file is the main configuration file for our tests, we can setup all the mysql objects in it, specially within the object `onPrepare`. Having done this, your code should look like this...
 
+```javascript
+onPrepare : function() {
+	mysql = require('/usr/local/lib/node_modules/mysql');
+	var connection = mysql.createConnection({
+		host : 'your_host',
+		user : 'your_db_user',
+		password : 'your_password'
+	});
+    connection.connect();
+},
+```
+Ok, now your handshake is going to be made as soon as your `conf.js` file starts running. Let's see how you can use it in your tests.
 
+		Remember: as you defined `connection` within conf.js, it is now an object of browser!
+        
+In your test, it is possible to query something by doing this:
+
+```javascript
+sql = SELECT COUNT(*) AS result FROM database.table WHERE value > 10;
+	browser.connection.query(sql, function(err, rows) {
+		if (err) {
+			console.log('Could not run query');
+		} else {
+			rowsbefore = rows[0].result;
+		}
+	});
+```
+
+Now imagine that after this query, you would really like to import an excel spreadsheet into your SUT and check whether all rows have been imported. OK let's do it...
+
+To make sure the query is going to happen only after the spreadsheet has been imported, our test must be written in a callback structure.
+
+```javascript
+//Imports table
+yourPageObject.importTable(function() {
+	browser.connection.query(sql, function(err, rows) {
+		if (err) {
+			console.log('Could not run query');
+		} else {
+			rowsafter = rows[0].result;
+		}
+	expect(rowsafter).toBe(rowsbefore + 1126);
+	});
+});
+```
+
+Finally, after all your Database tests have been executed, you can shut the connection by performing
+
+	browser.connection.end();
 
