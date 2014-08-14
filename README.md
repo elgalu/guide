@@ -109,14 +109,14 @@ Ok, now your handshake is going to be made as soon as your `conf.js` file starts
 In your test, it is possible to query something by doing this:
 
 ```javascript
-sql = SELECT COUNT(*) AS result FROM database.table WHERE value > 10;
-	browser.connection.query(sql, function(err, rows) {
-		if (err) {
-			console.log('Could not run query');
-		} else {
-			rowsbefore = rows[0].result;
-		}
-	});
+var sql = "SELECT COUNT(*) AS result FROM database.table WHERE value > 10;"
+browser.connection.query(sql, function(err, rows) {
+    if (err) {
+        console.log('Could not run query');
+    } else {
+        rowsbefore = rows[0].result;
+    }
+});
 ```
 
 Now imagine that after this query, you would really like to import an excel spreadsheet into your SUT and check whether all rows have been imported. OK let's do it...
